@@ -2,27 +2,32 @@ name: Minute Committer Test
 
 on:
   schedule:
-    # این دستور باعث می‌شود اکشن هر یک دقیقه اجرا شود
+    # Runs every minute
     - cron: '* * * * *'
-  workflow_dispatch: # این خط به شما اجازه می‌دهد اکشن را دستی هم اجرا کنید
+  workflow_dispatch:
 
 jobs:
   commit-job:
     runs-on: ubuntu-latest
+    
+    # این بخش برای دادن دسترسی نوشتن اضافه شده است
+    permissions:
+      contents: write
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
       - name: Create a commit
         run: |
-          # یک فایل را با تاریخ فعلی آپدیت می‌کند تا همیشه یک تغییر برای کامیت وجود داشته باشد
+          # Create or update a file to ensure there is a change
           date > last_run.txt
           
-          # تنظیمات گیت
+          # Configure Git
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           
-          # اضافه کردن، کامیت و پوش کردن تغییرات
+          # Add, commit, and push
           git add last_run.txt
           git commit -m "Test commit at $(date)"
           git push
