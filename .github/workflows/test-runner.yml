@@ -1,29 +1,29 @@
-name: Scheduler Check
+# name: Scheduler Check
 
-on:
-  schedule:
-    # این دستور به طور صریح هر ۵ دقیقه را مشخص می‌کند
-    - cron: '*/5 * * * *'
-  workflow_dispatch:
+# on:
+#   schedule:
+#     # این دستور به طور صریح هر ۵ دقیقه را مشخص می‌کند
+#     - cron: '*/5 * * * *'
+#   workflow_dispatch:
 
-jobs:
-  commit-job:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
+# jobs:
+#   commit-job:
+#     runs-on: ubuntu-latest
+#     permissions:
+#       contents: write
       
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
+#     steps:
+#       - name: Checkout Repository
+#         uses: actions/checkout@v4
 
-      - name: Create a new commit
-        run: |
-          # یک فایل جدید می‌سازد تا از وجود تغییر مطمئن شویم
-          date > scheduler_last_run.txt
+#       - name: Create a new commit
+#         run: |
+#           # یک فایل جدید می‌سازد تا از وجود تغییر مطمئن شویم
+#           date > scheduler_last_run.txt
           
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+#           git config --global user.name "github-actions[bot]"
+#           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           
-          git add scheduler_last_run.txt
-          git commit -m "✅ Scheduler Check successful at $(date)"
-          git push
+#           git add scheduler_last_run.txt
+#           git commit -m "✅ Scheduler Check successful at $(date)"
+#           git push
