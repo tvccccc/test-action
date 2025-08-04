@@ -1,33 +1,29 @@
-name: Minute Committer Test
+name: Scheduler Check
 
 on:
   schedule:
-    # Runs every minute
-    - cron: '* * * * *'
+    # این دستور به طور صریح هر ۵ دقیقه را مشخص می‌کند
+    - cron: '*/5 * * * *'
   workflow_dispatch:
 
 jobs:
   commit-job:
     runs-on: ubuntu-latest
-    
-    # این بخش برای دادن دسترسی نوشتن اضافه شده است
     permissions:
       contents: write
-
+      
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Create a commit
+      - name: Create a new commit
         run: |
-          # Create or update a file to ensure there is a change
-          date > last_run.txt
+          # یک فایل جدید می‌سازد تا از وجود تغییر مطمئن شویم
+          date > scheduler_last_run.txt
           
-          # Configure Git
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           
-          # Add, commit, and push
-          git add last_run.txt
-          git commit -m "Test commit at $(date)"
+          git add scheduler_last_run.txt
+          git commit -m "✅ Scheduler Check successful at $(date)"
           git push
